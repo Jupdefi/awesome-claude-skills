@@ -1,10 +1,59 @@
-# Claude Code Skills - Agent Documentation
+# Claude Skills - Agent Documentation
 
 This document provides a comprehensive list of all Claude Skills available in this repository that can be used with Claude Code, Claude.ai, and the Claude API.
 
 ## Installation
 
-All skills from this repository have been installed to `~/.config/claude-code/skills/` for use with Claude Code.
+Skills from this repository can be used across all Claude platforms. Follow the instructions below for your platform:
+
+### Installing Skills in Claude Code
+
+All skills have been installed to `~/.config/claude-code/skills/` for use with Claude Code.
+
+To manually install or update skills:
+
+```bash
+# Install a specific skill
+cp -r /home/user/awesome-claude-skills/skill-name ~/.config/claude-code/skills/
+
+# Verify installation
+ls -1 ~/.config/claude-code/skills/
+```
+
+### Installing Skills in Claude.ai
+
+To use these skills in Claude.ai (web interface):
+
+1. **Open Claude.ai** and navigate to https://claude.ai
+2. **Click the skill icon (🧩)** in your chat interface
+3. **Click "Upload custom skill"**
+4. **Select the SKILL.md file** from any skill folder in this repository
+   - Example: `/home/user/awesome-claude-skills/brand-guidelines/SKILL.md`
+5. **The skill is now available** and will activate automatically when relevant
+
+**Note:** Each skill must be uploaded individually. Once uploaded, the skill is saved to your Claude.ai account and available across all conversations.
+
+### Using Skills via API
+
+Use the Claude Skills API to programmatically load and manage skills:
+
+```python
+import anthropic
+
+client = anthropic.Anthropic(api_key="your-api-key")
+
+# Load a skill by uploading the SKILL.md content
+with open("path/to/skill/SKILL.md", "r") as f:
+    skill_content = f.read()
+
+response = client.messages.create(
+    model="claude-3-5-sonnet-20241022",
+    skills=[{"type": "custom", "content": skill_content}],
+    messages=[{"role": "user", "content": "Your prompt"}]
+)
+```
+
+See the [Skills API documentation](https://docs.claude.com/en/api/skills-guide) for details.
 
 ## Available Skills
 
@@ -154,14 +203,30 @@ Randomly selects winners from lists, spreadsheets, or Google Sheets for giveaway
 
 ## Usage
 
-These skills are automatically loaded when you start Claude Code. They activate contextually based on your requests:
+### How Skills Work
 
-- **Automatic activation:** Claude Code will automatically use the relevant skill when your task matches its capabilities
-- **Explicit invocation:** You can mention a skill by name to ensure it's used
+Skills automatically activate based on context across all Claude platforms:
+
+- **Automatic activation:** Claude detects when your task matches a skill's capabilities and activates it
+- **Explicit invocation:** Mention a skill by name to ensure it's used
 - **Skill chaining:** Multiple skills can work together on complex tasks
+- **Platform-agnostic:** Skills work consistently across Claude.ai, Claude Code, and the API
 
-## Examples
+### Usage Examples
 
+#### Claude.ai (Web Interface)
+```
+"Create a PowerPoint presentation about our Q4 results"
+→ Activates document-skills-pptx
+
+"Help me brainstorm domain names for my startup"
+→ Activates domain-name-brainstormer
+
+"Analyze this meeting transcript for speaking patterns"
+→ Activates meeting-insights-analyzer
+```
+
+#### Claude Code (CLI)
 ```bash
 # Using document skills
 "Create a PowerPoint presentation about our Q4 results"
@@ -180,6 +245,20 @@ These skills are automatically loaded when you start Claude Code. They activate 
 # → Activates invoice-organizer
 ```
 
+#### API Usage
+```python
+# Skills activate automatically in API calls too
+response = client.messages.create(
+    model="claude-3-5-sonnet-20241022",
+    skills=[{"type": "custom", "content": skill_content}],
+    messages=[{
+        "role": "user",
+        "content": "Create a Word document with our company guidelines"
+    }]
+)
+# → Activates document-skills-docx
+```
+
 ## Verification
 
 To verify all skills are properly installed:
@@ -196,8 +275,49 @@ find ~/.config/claude-code/skills/ -name "SKILL.md"
 
 **24 skills** across 6 categories are currently installed and ready to use.
 
+## Quick Reference: Skill File Paths
+
+For uploading to Claude.ai, here are the direct paths to each SKILL.md file:
+
+### Business & Marketing
+- `brand-guidelines/SKILL.md`
+- `competitive-ads-extractor/SKILL.md`
+- `domain-name-brainstormer/SKILL.md`
+- `internal-comms/SKILL.md`
+- `lead-research-assistant/SKILL.md`
+
+### Communication & Writing
+- `content-research-writer/SKILL.md`
+- `meeting-insights-analyzer/SKILL.md`
+
+### Creative & Media
+- `canvas-design/SKILL.md`
+- `image-enhancer/SKILL.md`
+- `slack-gif-creator/SKILL.md`
+- `theme-factory/SKILL.md`
+- `video-downloader/SKILL.md`
+
+### Development & Code Tools
+- `artifacts-builder/SKILL.md`
+- `changelog-generator/SKILL.md`
+- `mcp-builder/SKILL.md`
+- `skill-creator/SKILL.md`
+- `webapp-testing/SKILL.md`
+
+### Document Processing
+- `document-skills/docx/SKILL.md`
+- `document-skills/pdf/SKILL.md`
+- `document-skills/pptx/SKILL.md`
+- `document-skills/xlsx/SKILL.md`
+
+### Productivity & Organization
+- `file-organizer/SKILL.md`
+- `invoice-organizer/SKILL.md`
+- `raffle-winner-picker/SKILL.md`
+
 ## Additional Resources
 
 - [Claude Skills Documentation](https://docs.claude.com/en/api/skills-guide)
 - [Awesome Claude Skills Repository](https://github.com/Jupdefi/awesome-claude-skills)
 - [Creating Custom Skills](https://support.claude.com/en/articles/12512198-creating-custom-skills)
+- [Claude.ai Skills Marketplace](https://claude.ai/marketplace)
