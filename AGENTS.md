@@ -55,6 +55,57 @@ response = client.messages.create(
 
 See the [Skills API documentation](https://docs.claude.com/en/api/skills-guide) for details.
 
+---
+
+## MCP Servers: Extending Claude with External Tools
+
+In addition to **Skills** (which teach Claude how to perform tasks), you can attach **MCP Servers** to connect Claude to external APIs, databases, and services.
+
+### Skills vs MCP Servers
+
+- **Skills** = Instructions for Claude (markdown files with workflows and knowledge)
+- **MCP Servers** = External tools and data sources (running processes that expose APIs)
+
+### Quick MCP Setup
+
+Add MCP servers using the Claude Code CLI:
+
+```bash
+# Add an MCP server
+claude mcp add github -e GITHUB_TOKEN=your_token -- npx -y @modelcontextprotocol/server-github
+
+# List all configured servers
+claude mcp list
+
+# View servers in chat
+/mcp
+```
+
+### Popular MCP Servers
+
+- **GitHub** - Repository, issues, and PR management
+- **Filesystem** - Local file and directory access
+- **Brave Search** - Web search capabilities
+- **PostgreSQL** - Database queries
+- **Puppeteer** - Browser automation
+- **Slack** - Slack integration
+- **Google Drive** - Drive file access
+
+### Complete MCP Setup Guide
+
+For comprehensive instructions on configuring MCP servers, see:
+- **[MCP Setup Guide](./MCP-SETUP.md)** - Complete configuration and usage guide
+- **[mcp-builder Skill](./mcp-builder/SKILL.md)** - Create custom MCP servers
+
+**Key topics covered:**
+- Configuration methods (CLI wizard vs manual config)
+- Transport types (HTTP vs Stdio)
+- Scope levels (user, project, system)
+- Troubleshooting common issues
+- Creating custom MCP servers
+
+---
+
 ## Available Skills
 
 ### Business & Marketing
